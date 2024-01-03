@@ -1,0 +1,77 @@
+GET:
+/
+api/faculties
+api/pulpits
+api/subjects
+api/auditoriumstypes
+api/auditoriums
+http://localhost:3000/api/faculty/ТОВ/pulpits
+http://localhost:3000/api/auditoriumtypes/ЛБ-К/auditoriums
+
+POST:--------------------------------------------------
+api/pulpits
+{
+        "PULPIT": "SASHA",
+        "PULPIT_NAME": "SASHA",
+        "FACULTY": "ИДиП"
+}
+
+api/subjects
+{
+        "SUBJECT": "УВ",
+        "SUBJECT_NAME": "Уроки выживания",
+        "PULPIT": "SASHA"
+}
+
+api/auditoriumstypes
+{
+        "AUDITORIUM_TYPE": "TEST",
+        "AUDITORIUM_TYPENAME": "TESTTEST"
+}
+
+api/auditoriums
+{
+        "AUDITORIUM": "1000",
+        "AUDITORIUM_NAME": "1000",
+        "AUDITORIUM_CAPACITY": 90,
+        "AUDITORIUM_TYPE": "ЛК"
+}
+
+PUT:--------------------------------------------------
+api/faculties
+{
+        "FACULTY": "TF",
+        "FACULTY_NAME": "123456"
+}
+
+api/subjects
+{
+        "SUBJECT": "БД",
+        "SUBJECT_NAME": "Базы данныхL",
+        "PULPIT": "ИСиТ"
+}
+
+api/auditoriumstypes
+{
+        "AUDITORIUM_TYPE": "TEST",
+        "AUDITORIUM_TYPENAME": "TESTTEST2"
+}
+
+api/auditoriums
+{
+        "AUDITORIUM": "02Б-4",
+        "AUDITORIUM_NAME": "02Б-4",
+        "AUDITORIUM_CAPACITY": 90,
+        "AUDITORIUM_TYPE": "ЛК"
+}
+
+DELETE:--------------------------------------------------
+api/faculties/TF
+
+api/pulpits/SASHA
+
+api/subjects/УВ
+
+api/auditoriumstypes/TEST
+
+api/auditoriums/1000

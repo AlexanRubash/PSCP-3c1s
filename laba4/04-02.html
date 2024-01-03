@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>lab4</title>
+</head>
+
+<body>
+<div>
+    <div class="container">
+        <div id="select_result"></div>
+        <button onclick="Get()">GET</button>
+    </div>
+    <hr>
+
+    <div id="insert_div" class="container">
+        <div class="row">
+            <p>ID</p>
+            <input onchange="handleIdInput('POST')" id="ID" type="number" min="0">
+        </div>
+        <div class="row">
+            <p>Имя</p>
+            <input id="Name" type="text">
+        </div>
+        <div class="row">
+            <p>День рождения</p>
+            <input id="Bday" type="date" placeholder="DD-MM-YYYY">
+        </div>
+        <button onclick="Post()">POST</button>
+    </div>
+<hr>
+    <div id="update_div" class="container">
+        <div class="row">
+            <p>ID</p>
+            <input onchange="handleIdInput('PUT')" id="ID_put" type="number" min="0"
+                   placeholder="Введите ID для обновления">
+        </div>
+        <div class="row">
+            <p>Имя</p>
+            <input id="Name_put" type="text" placeholder="Введите новое имя">
+        </div>
+        <div class="row">
+            <p>День Рождения</p>
+            <input id="Bday_put" type="date" placeholder="DD-MM-YYYY">
+        </div>
+        <button onclick="Put()">PUT</button>
+    </div>
+    <hr>
+
+    <div id="delete_div" class="container">
+        <div class="row">
+            <p>Введите ID для удаления</p>
+            <input id="ID_del" type="number" min="0">
+        </div>
+        <button onclick="Delete()">DELETE</button>
+    </div>
+</div>
+
+<script>
+
+        function handleIdInput(par) {
+
+            let inputValue
+            if (par == "POST") {
+                inputValue = document.getElementById("ID").value;
+            }
+            if (par == "PUT") {
+                inputValue = document.getElementById("ID_put").value;
+            }
+
+            fetch('http://localhost:5000/api/db', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            }).then(response => { return response.json(); })
+                .then((data) => {
+
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        if (data[i].id == inputValue && par == 'POST') {
+                            document.getElementById("Name").value = data[i].name;
+                            document.getElementById("Bday").value = data[i].bday;
+                            return;
+                        }
+
+                        if (data[i].id == inputValue && par == 'PUT') {
+                            document.getElementById("Name_put").value = data[i].name;
+                            document.getElementById("Bday_put").value = data[i].bday;
+                            return;
+                        }
+                    }
+                })
+
+        }
+
+        function Get() {
+            fetch('http://localhost:5000/api/db', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            }).then(response => { return response.json(); })
+                .then((data) => { appendData(data); })
+        }
+
+
+
+        function Post() {
+
+            if (new Date(Bday.value.toString()) >= new Date('2023-10-10')) {
+                console.log('invalid date');
+            }
+
+            if (ID.value != "" && Name.value != "" && Bday.value != "") {
+                fetch('http://localhost:5000/api/db', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ id: ID.value, name: Name.value, bday: Bday.value })
+                }).then(response => { return response.json(); });
+            }
+        }
+
+        function Put() {
+
+            if (new Date(Bday_put.value.toString()) >= new Date('2023-10-10')) {
+                console.log('invalid date');
+            }
+
+            if (ID_put.value != "" && Name_put.value != "" && Bday_put.value != "") {
+                fetch('http://localhost:5000/api/db', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ id: ID_put.value, name: Name_put.value, bday: Bday_put.value })
+                }).then(response => { return response.json(); })
+            }
+        }
+
+        function Delete() {
+            if (ID_del.value != "") {
+                fetch('http://localhost:5000/api/db?id=' + ID_del.value, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+                }).then(response => { return response.json(); })
+            }
+        }
+
+        function appendData(data) {
+            let mainContainer = document.getElementById("select_result");
+            mainContainer.innerHTML = "";
+            for (let i = 0; i < data.length; i++) {
+                let div = document.createElement("div");
+                div.innerHTML = data[i].id + '. Name: ' + data[i].name + '; Bday: ' + data[i].bday;
+                mainContainer.appendChild(div);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

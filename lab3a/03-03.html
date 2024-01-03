@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h2 id="inner"></h2>
+<script>
+    var input = document.getElementById("inner");
+    let n = 0;
+    const t = Date.now();
+    const promises = [];
+
+    for (var k = 0; k < 21; k++) {
+        const promise = fetch(`http://localhost:5000/fact?k=${k}`, {
+            method: 'GET',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then((pdata) => {
+                input.innerHTML += (n++) + '. Результат: ' + (Date.now() - t) + '-' + pdata.k + '/' + pdata.fact + '<br/>';
+            });
+        promises.push(promise);
+    }
+
+    // Promise.all(promises).then(() => {
+    //     input.innerText += 'Общая продолжительность: ' + (Date.now() - t);
+    // });
+
+</script>
+</body>
+
+
+</html>

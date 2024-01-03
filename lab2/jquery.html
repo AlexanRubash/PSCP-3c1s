@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+<h1>ФИО: <span id="inner"></span></h1>
+<script>
+    let input = document.getElementById("inner");
+
+    $.ajax({
+        method: 'GET',
+        url: '/api/name',
+        success: (data) => {
+            $('#inner').html(data);
+        }
+    });
+</script>
+</body>
+</html>
